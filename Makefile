@@ -11,7 +11,7 @@ CXXFLAGS= -g -Ofast -Wall
 goals: judge
 	@echo "Done"
 
-filter: FilterMain.cpp Filter.cpp cs1300bmp.cc cs1300bmp.h Filter.h rdtsc.h
+filter: FilterMain.cpp Filter.cpp cs1300bmp.cc cs1300bmp.h Filter.h rdtsc.h unroll_directives.hpp
 	$(CXX) $(CXXFLAGS) -o filter FilterMain.cpp Filter.cpp cs1300bmp.cc
 
 ##

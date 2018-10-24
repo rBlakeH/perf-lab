@@ -7,6 +7,7 @@
 using namespace std;
 
 #include "rdtsc.h"
+#include "unroll_directives.hpp"
 
 //
 // Forward declare the functions
@@ -111,29 +112,10 @@ applyFilter(struct Filter *filter, cs1300bmp *input, cs1300bmp *output)
 
   for(int row = 1; row < inputHeight; row = row + 1) {
     for(int col = 1; col < inputWidth; col = col + 1) {
-      for(int plane = 0; plane < 3; plane++) {
-        output -> color[plane][row][col] = 0;
-
-        // swapping these did not affect performance. in some cases it made it worse!
-        for (int j = 0; j < filterSize; j++) {
-          for (int i = 0; i < filterSize; i++) {
-            output -> color[plane][row][col]
-              = output -> color[plane][row][col]
-              + (input -> color[plane][row + i - 1][col + j - 1]
-              * filter -> get(i, j) );
-          }
-        }
-
-        output -> color[plane][row][col] = (int) (output -> color[plane][row][col] * invDivisor);
-
-        if ( output -> color[plane][row][col]  < 0 ) {
-          output -> color[plane][row][col] = 0;
-        }
-
-        if ( output -> color[plane][row][col]  > 255 ) {
-          output -> color[plane][row][col] = 255;
-        }
-      }
+      // Unrolled: `for (int plane = 0; plane < 3; plane++) { ... }`
+      PLANE_LOOP_TEMPLATE(0);
+      PLANE_LOOP_TEMPLATE(1);
+      PLANE_LOOP_TEMPLATE(2);
     }
   }
 
