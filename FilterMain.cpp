@@ -100,6 +100,7 @@ applyFilter(struct Filter *filter, cs1300bmp *input, cs1300bmp *output)
   int filterSize = filter -> getSize();
   int inputHeight = input -> height - 1;
   int inputWidth = input -> width - 1;
+  float invDivisor = 1.0f / filter -> getDivisor();
 
   cycStart = rdtscll();
 
@@ -123,7 +124,7 @@ applyFilter(struct Filter *filter, cs1300bmp *input, cs1300bmp *output)
           }
         }
 
-        output -> color[plane][row][col] = output -> color[plane][row][col] / filter -> getDivisor();
+        output -> color[plane][row][col] = (int) (output -> color[plane][row][col] * invDivisor);
 
         if ( output -> color[plane][row][col]  < 0 ) {
           output -> color[plane][row][col] = 0;
