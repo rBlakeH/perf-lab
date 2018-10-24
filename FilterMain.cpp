@@ -97,20 +97,25 @@ applyFilter(struct Filter *filter, cs1300bmp *input, cs1300bmp *output)
 
   long long cycStart, cycStop;
 
+  int filterSize = filter -> getSize();
+  int inputHeight = input -> height - 1;
+  int inputWidth = input -> width - 1;
+
   cycStart = rdtscll();
 
   output -> width = input -> width;
   output -> height = input -> height;
 
 
-  for(int row = 1; row < (input -> height) - 1 ; row = row + 1) {
-    for(int col = 1; col < (input -> width) - 1; col = col + 1) {
+
+  for(int row = 1; row < inputHeight; row = row + 1) {
+    for(int col = 1; col < inputWidth; col = col + 1) {
       for(int plane = 0; plane < 3; plane++) {
         output -> color[plane][row][col] = 0;
 
         // swapping these did not affect performance. in some cases it made it worse!
-        for (int j = 0; j < filter -> getSize(); j++) {
-          for (int i = 0; i < filter -> getSize(); i++) {
+        for (int j = 0; j < filterSize; j++) {
+          for (int i = 0; i < filterSize; i++) {
             output -> color[plane][row][col]
               = output -> color[plane][row][col]
               + (input -> color[plane][row + i - 1][col + j - 1]
