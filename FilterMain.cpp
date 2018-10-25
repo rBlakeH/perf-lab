@@ -98,13 +98,12 @@ applyFilter(struct Filter *filter, cs1300bmp *input, cs1300bmp *output)
 {
 
   long long cycStart, cycStop;
+  cycStart = rdtscll();
 
   int filterSize = filter -> getSize();
   int inputHeight = input -> height - 1;
   int inputWidth = input -> width - 1;
   float invDivisor = 1.0f / filter -> getDivisor();
-
-  cycStart = rdtscll();
 
   output -> width = input -> width;
   output -> height = input -> height;
