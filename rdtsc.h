@@ -8,11 +8,9 @@
 inline
 unsigned long long int rdtscll(void)
 {
-   unsigned a, d;
-
-   __asm__ volatile("rdtsc" : "=a" (a), "=d" (d));
-
-   return ((unsigned long long)a) | (((unsigned long long)d) << 32);;
+   unsigned long long ret;
+   __asm__ volatile("rdtsc" : "=A" (ret));
+   return ret;
 }
 
 #endif
