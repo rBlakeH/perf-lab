@@ -2,10 +2,10 @@
 #define UNROLL_DIRECTIVES_H
 
 #define __INNER_UNROLL(plane, row, col, i, j) { \
-  output -> color[plane][row][col] += (input -> color[plane][row + i - 1][col + j - 1] * filter -> get(i, j) ); \
+  output -> color[plane][row][col] += (input -> color[plane][row + i - 1][col + j - 1] * filter -> data[i *3 + j]); \
 };
 
-#define __UPDATE_COLORS(plane, row, col) {\
+#define __UPDATE_COLORS(plane, row, col) { \
   __INNER_UNROLL(plane, row, col, 0, 0); \
   __INNER_UNROLL(plane, row, col, 0, 1); \
   __INNER_UNROLL(plane, row, col, 0, 2); \
