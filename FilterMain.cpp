@@ -3,6 +3,7 @@
 #include <iostream>
 #include <fstream>
 #include "Filter.h"
+#include "omp.h"
 
 using namespace std;
 
@@ -108,8 +109,8 @@ applyFilter(struct Filter *filter, cs1300bmp *input, cs1300bmp *output)
   output -> width = input -> width;
   output -> height = input -> height;
 
-
-
+  // https://www.openmp.org/wp-content/uploads/omp-hands-on-SC08.pdf
+  #pragma omp parallel for
   for(int row = 1; row < inputHeight; row = row + 1) {
     for(int col = 1; col < inputWidth; col = col + 1) {
       // Unrolled: `for (int plane = 0; plane < 3; plane++) { ... }`

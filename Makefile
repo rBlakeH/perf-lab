@@ -6,7 +6,7 @@ CXX	=g++
 ## Use our standard compiler flags for the course...
 ## You can try changing these flags to improve performance.
 ##
-CXXFLAGS= -g -Ofast -m64 -march=broadwell -Wall
+CXXFLAGS= -g -Ofast -fopenmp -m64 -march=broadwell -Wall
 
 goals: judge
 	@echo "Done"
